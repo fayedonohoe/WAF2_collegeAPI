@@ -23,7 +23,8 @@
             <b-td>
               <router-link :to="`/courses/edit/${item.id}`">Edit</router-link>
               <button @click="deleteCourse()"> Delete </button>
-              <router-link :to="`/courses/delete/${item.id}`">Delete</router-link> <!--  not how its done, just pass id to destroy method -->
+              <!-- <router-link :to="`/courses/delete/${item.id}`">Delete</router-link> -->
+              <!-- ABOVE not how its done, just pass id to destroy method -->
             </b-td>
           </b-tr>
         </b-body>
@@ -52,21 +53,38 @@ export default {
        console.log(error);
     })
   },
-  deleteCourse() {
-    let app = this;
-    let token = localStorage.getItem('token');
-    axios.delete('/api/courses', {
-      headers: { Authorization: "Bearer " + token}
-    })
-    .then(function (response) {
-       console.log(response.data);
-       app.courses = response.data.data;
-    })
-    .catch(function (error) {
-       console.log(error);
-    })
-  },
   methods: {
+    // deleteCourse(id) {
+    //   console.log("attempted delete");
+    //   let app = this;
+    //   let token = localStorage.getItem('token');
+    //   axios.delete('/api/courses/$id', {
+    //     headers: { Authorization: "Bearer " + token}
+    //   })
+    //   .then(function (response) {
+    //     console.log(response.data);
+    //     app.courses = response.data.data;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   })
+    // },
+
+    deleteCourse() {
+      console.log("attempted delete");
+      let app = this;
+      let token = localStorage.getItem('token');
+
+      axios.delete("/api/courses/" + app.course.id, {
+         headers: { Authorization: "Bearer " + token }
+       })
+       .then(function(response) {
+       //do something
+       })
+       .catch(function(error) {
+         console.log(error);
+       });
+   }
 
   }
 }

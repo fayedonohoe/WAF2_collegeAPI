@@ -3,8 +3,12 @@
     Test Login <br>
     <button @click="login()">Login</button>
     <br>
+    <br>
+    <br>
     Test Logout <br>
     <button @click="logout()">Logout</button>
+    <br>
+    <br>
     <br>
     Test courses <br>
     <button @click="getCourses()"> Get Courses </button>

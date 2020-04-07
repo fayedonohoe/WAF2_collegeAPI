@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 v-if="loggedIn">You are logged in!!!</h3>
+    <h3 v-if="loggedIn">Welcome, You are logged in!</h3>
     <b-form v-else @submit="onSubmit" >
       <b-form-group
         id="input-group-1"

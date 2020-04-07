@@ -7,6 +7,16 @@ import Example from './views/Example'
 import CoursesIndex from './views/courses/Index'
 import CoursesEdit from './views/courses/Edit'
 import CoursesCreate from './views/courses/Create'
+import CoursesShow from './views/courses/Show'
+// import CoursesDelete from './views/courses/Delete'
+import LecturersIndex from './views/lecturers/Index'
+import LecturersEdit from './views/lecturers/Edit'
+import LecturersCreate from './views/lecturers/Create'
+import LecturersShow from './views/lecturers/Show'
+import EnrolmentsIndex from './views/enrolments/Index'
+import EnrolmentsEdit from './views/enrolments/Edit'
+import EnrolmentsCreate from './views/enrolments/Create'
+import EnrolmentsShow from './views/enrolments/Show'
 
 Vue.use(Router)
 
@@ -35,14 +45,63 @@ export default new Router({
       component: CoursesEdit
     },
     {
-      path: '/courses/delete/:id',
-      name: 'coursesDelete',
-      component: CoursesDelete
-    },
-    {
       path: '/courses/create',
       name: 'coursesCreate',
       component: CoursesCreate
+    },
+    {
+      path: '/courses/show/:id',
+      name: 'coursesShow',
+      component: CoursesShow
+    },
+    // {
+    //   path: '/courses/delete/:id',
+    //   name: 'coursesDelete',
+    //   component: CoursesDelete
+    // },
+
+    {
+      path: '/lecturers',
+      name: 'lecturersIndex',
+      component: LecturersIndex
+    },
+    {
+      path: '/lecturers/edit/:id',
+      name: 'lecturersEdit',
+      component: LecturersEdit
+    },
+    {
+      path: '/lecturers/create',
+      name: 'lecturersCreate',
+      component: LecturersCreate
+    },
+    {
+      path: '/lecturers/show/:id',
+      name: 'lecturersShow',
+      component: LecturersShow
+    },
+
+    {
+      path: '/enrolments',
+      name: 'enrolmentsIndex',
+      component: EnrolmentsIndex
+    },
+
+    {
+      path: '/enrolments/edit/:id',
+      name: 'enrolmentsEdit',
+      component: EnrolmentsEdit
+    },
+    {
+      path: '/enrolments/create',
+      name: 'enrolmentsCreate',
+      component: EnrolmentsCreate
+    },
+    {
+      path: '/enrolments/show/:id',
+      name: 'enrolmentsShow',
+      component: EnrolmentsShow
     }
+
   ]
 })

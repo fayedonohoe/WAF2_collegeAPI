@@ -6,10 +6,22 @@
     <b-navbar-nav>
       <!-- <router-link to="/">Home</router-link> -->
       <b-nav-item to="/">Home</b-nav-item>
+
       <b-nav-item-dropdown text="Courses" left>
         <b-dropdown-item to="/courses">View All</b-dropdown-item>
         <b-dropdown-item to="/courses/create">Create</b-dropdown-item>
       </b-nav-item-dropdown>
+
+      <b-nav-item-dropdown text="Lecturers" left>
+        <b-dropdown-item to="/lecturers">View All</b-dropdown-item>
+        <b-dropdown-item to="/lecturers/create">New</b-dropdown-item>
+      </b-nav-item-dropdown>
+
+      <b-nav-item-dropdown text="Enrolments" left>
+        <b-dropdown-item to="/enrolments">View All</b-dropdown-item>
+        <b-dropdown-item to="/enrolments/create">New</b-dropdown-item>
+      </b-nav-item-dropdown>
+
     </b-navbar-nav>
 
     <!-- Right aligned nav items -->
@@ -32,7 +44,10 @@
 export default {
   name: "myNavbar",
   methods: {
-
+    logout() {
+      localStorage.removeItem('token');
+      console.log("Logged Out");
+    }
   }
 };
 </script>
