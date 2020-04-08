@@ -14,7 +14,7 @@
             type="date"
             required
             placeholder="Enter Date"
-            v-model="form.date"
+            v-model="enrolment.date"
           >
           </b-form-input>
           </b-form-group>
@@ -29,7 +29,7 @@
             type="time"
             required
             placeholder="Enter Time"
-            v-model="form.time"
+            v-model="enrolment.time"
           >
           </b-form-input>
           <!-- <b-form-invalid-feedback :state="codeValid">
@@ -45,14 +45,13 @@
             label="Status:"
             label-for="input-3"
           >
-          <b-form-input
-            id="input-3"
-            type="text"
-            required
-            placeholder="Enter Status"
-            v-model="form.status"
-          >
-          </b-form-input>
+            <b-form-select
+              id="input-3"
+              v-model="enrolment.status"
+              :options="status"
+              required
+
+            ></b-form-select>
           </b-form-group>
 
           <b-form-group
@@ -60,29 +59,46 @@
             label="Course:"
             label-for="input-4"
           >
-          <b-form-input
-            id="input-4"
-            type="number"
-            required
-            placeholder="Enter Course"
-            v-model="form.course_id"
-          >
-          </b-form-input>
-          </b-form-group>
+            <b-form-select
+              id="input-4"
+              name='courses'
+              v-model='enrolment.course'
+              class='form-control'>
 
+              <option
+              placeholder="Select a course"
+              v-for="course in courses"
+              :key= "course.id"
+              v-bind:value="course.id">
+
+                {{course.title}}
+
+            </option>
+
+            ></b-form-select>
+          </b-form-group>
           <b-form-group
             id="input-group-5"
-            label="Lecturer:"
+            label="Lecturers:"
             label-for="input-5"
           >
-          <b-form-input
-            id="input-5"
-            type="number"
-            required
-            placeholder="Enter Lecturer"
-            v-model="form.lecturer_id"
-          >
-          </b-form-input>
+            <b-form-select
+              id="input-5"
+              name='lecturers'
+              v-model='enrolment.lecturer'
+              class='form-control'>
+
+              <option
+              placeholder="Select a Lecturer"
+              v-for="lecturer in lecturers"
+              :key= "lecturer.id"
+              v-bind:value="lecturer.id">
+
+                {{lecturer.name}}
+
+            </option>
+
+            ></b-form-select>
           </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
@@ -95,13 +111,12 @@
 export default {
   data() {
     return {
-      form: {
-        date: '',
-        time: '',
-        status: '',
-        course: '',
-        lecturer: ''
-      },
+      enrolment:{},
+        status: null,
+        courses: '',
+        lecturers: '',
+        status: [{ text : 'Select One', value:null}, 'assigned', 'associate', 'career_break','interested'],
+
       loggedIn: false,
       errors: []
     }
@@ -119,6 +134,28 @@ export default {
       this.loggedIn = false;
       this.$router.push('/');
     }
+    let app =this;
+    let token = localStorage.getItem('token');
+    //get all courses
+    axios.get(`/api/courses`, {
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(function (response) {
+      app.courses = response.data.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    // get all lecturers
+    axios.get(`/api/lecturers`, {
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(function (response) {
+      app.lecturers = response.data.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   },
   methods: {
     onSubmit(evt) {
@@ -128,11 +165,11 @@ export default {
       let token = localStorage.getItem('token');
 
       axios.post('/api/enrolments', {
-        date: app.form.date,
-        time: app.form.time,
-        status: app.form.status,
-        course_id: app.form.course_id,
-        lecturer_id: app.form.lecturer_id
+        date: app.enrolment.date,
+        time: app.enrolment.time,
+        status: app.enrolment.status,
+        course_id: app.enrolment.course,
+        lecturer_id: app.enrolment.lecturer
       }, {
         headers: { Authorization: `Bearer ${token}`}
       })

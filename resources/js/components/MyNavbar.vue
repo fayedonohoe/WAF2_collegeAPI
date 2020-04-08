@@ -1,6 +1,6 @@
 <template>
   <div>
-  <b-navbar toggleable="sm" type="dark" variant="dark">
+  <b-navbar toggleable="sm" type="dark" variant="info">
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
     <b-navbar-nav>
@@ -32,7 +32,7 @@
             <em>User</em>
           </template>
           <!-- View user by id -->
-          <router-link :to="`/users/1`">Profile</router-link>
+          <!-- <router-link :to="`/users/1`">Profile</router-link> -->
           <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>

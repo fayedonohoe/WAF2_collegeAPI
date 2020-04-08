@@ -82,7 +82,6 @@
       }
     },
     created() {
-      // console.log(localStorage.getItem('token'));
       if (localStorage.getItem('token')) {
         this.loggedIn = true;
       }
@@ -107,6 +106,7 @@
       onSubmit(evt) {
         evt.preventDefault()
 
+        // Stores the current information for this id in the models as placeholders
         let app = this;
         let token = localStorage.getItem('token');
         axios.put(`/api/lecturers/${app.$route.params.id}`, {

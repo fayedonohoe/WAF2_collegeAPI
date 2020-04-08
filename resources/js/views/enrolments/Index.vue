@@ -2,8 +2,8 @@
   <b-row align-h="center">
     <b-col cols="12">
 
-      <b-table-simple hover responsive>
-        <b-head>
+      <b-table-simple hover responsive bordered>
+        <b-thead>
           <b-tr>
             <b-th>Date</b-th>
             <b-th>Time</b-th>
@@ -12,21 +12,21 @@
             <b-th>Lecturer</b-th>
             <b-th>Actions</b-th>
           </b-tr>
-        </b-head>
-        <b-body>
+        </b-thead>
+        <b-tbody>
           <b-tr v-for="item in items" :key="item.id">
-            <br>
             <b-td>{{ item.date }}</b-td>
             <b-td>{{ item.time }}</b-td>
             <b-td>{{ item.status }}</b-td>
-            <b-td>{{ item.course_id }}</b-td>
-            <b-td>{{ item.lecturer_id }}</b-td>
+            <b-td>{{ item.course.title }}</b-td>
+            <b-td>{{ item.lecturer.name }}</b-td>
             <b-td>
-              <router-link :to="`/enrolments/edit/${item.id}`">Edit</router-link>
-              <router-link :to="`/enrolments/delete/${item.id}`">Delete</router-link> <!--  not how its done, just pass id to destroy method, onclick? -->
+              <b-button variant="outline-primary"> <router-link :to="`/enrolments/show/${item.id}`">View</router-link> </b-button>
+              <b-button variant="outline-primary"> <router-link :to="`/enrolments/edit/${item.id}`">Edit</router-link> </b-button>
+              <b-button variant="outline-primary" @click="deleteEnrolment(item.id)">Delete</b-button>
             </b-td>
           </b-tr>
-        </b-body>
+        </b-tbody>
       </b-table-simple>
     </b-col>
   </b-row>
@@ -35,7 +35,7 @@
 export default {
   data() {
     return {
-      items: []
+      items: []   //store result of get
     }
   },
   created(){
@@ -53,9 +53,25 @@ export default {
     })
   },
   methods: {
+    // causes error on any pre-seeded entities due to back end constrictions
+    deleteEnrolment(id) {
+      let app = this;
+      let token = localStorage.getItem('token');
+      axios.delete('/api/enrolments/' + id, {
+        headers: { Authorization: "Bearer " + token}
+      })
+      .then(function (response) {
+         console.log(response.data);
+         app.items = app.items.filter(dat => dat.id !== id);  // returns everything but the id you just deleted by accessing the DOM
+      })
+      .catch(function (error) {
+         console.log(error);
+      })
 
+    }
   }
 }
+
 </script>
 <style>
 </style>

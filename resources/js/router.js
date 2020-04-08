@@ -8,7 +8,6 @@ import CoursesIndex from './views/courses/Index'
 import CoursesEdit from './views/courses/Edit'
 import CoursesCreate from './views/courses/Create'
 import CoursesShow from './views/courses/Show'
-// import CoursesDelete from './views/courses/Delete'
 import LecturersIndex from './views/lecturers/Index'
 import LecturersEdit from './views/lecturers/Edit'
 import LecturersCreate from './views/lecturers/Create'
@@ -21,7 +20,7 @@ import EnrolmentsShow from './views/enrolments/Show'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'history',            // built in mode that stores whatever the previous page was
   base: process.env.BASE_URL,
   routes: [
     {
@@ -54,11 +53,6 @@ export default new Router({
       name: 'coursesShow',
       component: CoursesShow
     },
-    // {
-    //   path: '/courses/delete/:id',
-    //   name: 'coursesDelete',
-    //   component: CoursesDelete
-    // },
 
     {
       path: '/lecturers',

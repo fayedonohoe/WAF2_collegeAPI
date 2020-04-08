@@ -2,8 +2,8 @@
   <b-row align-h="center">
     <b-col cols="12">
 
-      <b-table-simple hover responsive>
-        <b-head>
+      <b-table-simple hover responsive bordered>
+        <b-thead>
           <b-tr>
             <b-th>Title</b-th>
             <b-th>Code</b-th>
@@ -12,8 +12,8 @@
             <b-th>Level</b-th>
             <b-th>Actions</b-th>
           </b-tr>
-        </b-head>
-        <b-body>
+        </b-thead>
+        <b-tbody>
           <b-tr v-for="item in items" :key="item.id">
             <b-td>{{ item.title }}</b-td>
             <b-td>{{ item.code }}</b-td>
@@ -21,13 +21,12 @@
             <b-td>{{ item.level }}</b-td>
             <b-td>{{ item.points }}</b-td>
             <b-td>
-              <router-link :to="`/courses/edit/${item.id}`">Edit</router-link>
-              <button @click="deleteCourse()"> Delete </button>
-              <!-- <router-link :to="`/courses/delete/${item.id}`">Delete</router-link> -->
-              <!-- ABOVE not how its done, just pass id to destroy method -->
+              <b-button variant="outline-primary"> <router-link :to="`/courses/show/${item.id}`">View</router-link></b-button>
+              <b-button variant="outline-primary"> <router-link :to="`/courses/edit/${item.id}`">Edit</router-link></b-button>
+              <b-button variant="outline-primary" @click="deleteCourse(item.id)"> Delete </b-button>
             </b-td>
           </b-tr>
-        </b-body>
+        </b-tbody>
       </b-table-simple>
     </b-col>
   </b-row>
@@ -36,7 +35,7 @@
 export default {
   data() {
     return {
-      items: []
+      items: []   // stores result of axios get request
     }
   },
   created(){
@@ -47,45 +46,28 @@ export default {
     })
     .then(function (response) {
        console.log(response.data);
-       app.items = response.data.data;
+       app.items = response.data.data; // how the data is stored
     })
     .catch(function (error) {
        console.log(error);
     })
   },
   methods: {
-    // deleteCourse(id) {
-    //   console.log("attempted delete");
-    //   let app = this;
-    //   let token = localStorage.getItem('token');
-    //   axios.delete('/api/courses/$id', {
-    //     headers: { Authorization: "Bearer " + token}
-    //   })
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //     app.courses = response.data.data;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   })
-    // },
 
-    deleteCourse() {
-      console.log("attempted delete");
+    deleteCourse(id) {
       let app = this;
       let token = localStorage.getItem('token');
-
-      axios.delete("/api/courses/" + app.course.id, {
-         headers: { Authorization: "Bearer " + token }
-       })
-       .then(function(response) {
-       //do something
-       })
-       .catch(function(error) {
+      axios.delete('/api/courses/' + id, {
+        headers: { Authorization: "Bearer " + token}
+      })
+      .then(function (response) {
+         console.log(response.data);
+         app.items = app.items.filter(dat => dat.id !== id); // returns everything but the id you just deleted by accessing the DOM
+      })
+      .catch(function (error) {
          console.log(error);
-       });
-   }
-
+      })
+    }
   }
 }
 </script>

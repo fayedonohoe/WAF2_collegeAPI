@@ -121,6 +121,7 @@
       onSubmit(evt) {
         evt.preventDefault()
 
+        // Stores the current information for this id in the models as placeholders
         let app = this;
         let token = localStorage.getItem('token');
         axios.put(`/api/courses/${app.$route.params.id}`, {

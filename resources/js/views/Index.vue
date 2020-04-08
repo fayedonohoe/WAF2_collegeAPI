@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 v-if="loggedIn">Welcome, You are logged in!</h3>
+    <h3 v-if="loggedIn">Welcome! Please Select An Option To Begin!</h3>
     <b-form v-else @submit="onSubmit" >
       <b-form-group
         id="input-group-1"
@@ -35,7 +35,28 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
+    <br><br>
+  <div>
+    <b-card-group deck>
+      <b-card bg-variant="info" text-variant="white" header="Courses" class="text-center">
+        <b-button variant="light"> <router-link :to="`/courses/`">View All Courses Currently Available</router-link></b-button>
+      </b-card>
+
+      <b-card bg-variant="info" text-variant="white" header="Lecturers" class="text-center">
+        <b-button variant="light"> <router-link :to="`/lecturers/`">View All Lecturers Currently Teaching</router-link></b-button>
+      </b-card>
+
+      <b-card bg-variant="info" text-variant="white" header="Enrolments" class="text-center">
+        <b-button variant="light"> <router-link :to="`/enrolments/`">View All College Enrolments</router-link></b-button>
+      </b-card>
+    </b-card-group>
   </div>
+
+  <br><br><br>
+  <b-button variant="outline-info" @click="logout">Log Out</b-button>
+
+</div>
+
 </template>
 <script>
 export default {
@@ -72,12 +93,17 @@ export default {
         password: app.form.password
       })
       .then(function(response) {
+        //Once logged in, the session token is stored in local data for authorisation throughout the application
         localStorage.setItem('token', response.data.token)
         app.loggedIn = true;
       })
       .catch(function(error) {
         console.log(error.response.data);
       });
+    },
+    logout() {
+      localStorage.removeItem('token');
+      console.log("Logged Out");
     }
   }
 }

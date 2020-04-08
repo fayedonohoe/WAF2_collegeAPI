@@ -11,7 +11,7 @@
           >
             <b-form-input
               id="input-1"
-              v-model="lecturer.name"
+              v-model="form.name"
               type="text"
               required
               placeholder="Enter Name"
@@ -25,7 +25,7 @@
           >
             <b-form-input
               id="input-2"
-              v-model="lecturer.address"
+              v-model="form.address"
               type="text"
               required
               placeholder="Enter Address"
@@ -34,15 +34,15 @@
 
           <b-form-group
             id="input-group-3"
-            label="pPhone:"
+            label="Phone:"
             label-for="input-3"
           >
             <b-form-input
               id="input-3"
-              v-model="lecturer.phone"
+              v-model="form.phone"
               type="text"
               required
-              placeholder="Enter pPhone"
+              placeholder="Enter Phone"
             ></b-form-input>
 
             <b-form-invalid-feedback :state="phoneValid">
@@ -61,7 +61,7 @@
           >
             <b-form-input
               id="input-4"
-              v-model="lecturer.email"
+              v-model="form.email"
               type="text"
               required
               placeholder="Enter Email"

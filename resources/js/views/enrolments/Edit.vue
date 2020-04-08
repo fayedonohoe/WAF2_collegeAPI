@@ -42,13 +42,13 @@
             label="Status:"
             label-for="input-3"
           >
-            <b-form-input
+            <b-form-select
               id="input-3"
               v-model="enrolment.status"
-              type="text"
+              :options="status"
               required
-              placeholder="Enter Status"
-            ></b-form-input>
+
+            ></b-form-select>
           </b-form-group>
 
           <b-form-group
@@ -56,28 +56,48 @@
             label="Course:"
             label-for="input-4"
           >
-            <b-form-input
+            <b-form-select
               id="input-4"
-              v-model="enrolment.course_id"
-              type="number"
-              required
-              placeholder="Enter Course"
-            ></b-form-input>
-          </b-form-group>
+              name='courses'
+              v-model='enrolment.course_id'
+              class='form-control'>
 
+              <option
+              placeholder="Select a course"
+              v-for="course in courses"
+              :key= "course.id"
+              v-bind:value="course.id">
+
+                {{course.title}}
+
+            </option>
+
+            ></b-form-select>
+          </b-form-group>
           <b-form-group
             id="input-group-5"
-            label="Lecturer:"
+            label="Lecturers:"
             label-for="input-5"
           >
-            <b-form-input
+            <b-form-select
               id="input-5"
-              v-model="enrolment.lecturer_id"
-              type="number"
-              required
-              placeholder="Enter Lecturer"
-            ></b-form-input>
+              name='lecturers'
+              v-model='enrolment.lecturer_id'
+              class='form-control'>
+
+              <option
+              placeholder="Select a Lecturer"
+              v-for="lecturer in lecturers"
+              :key= "lecturer.id"
+              v-bind:value="lecturer.id">
+
+                {{lecturer.name}}
+
+            </option>
+
+            ></b-form-select>
           </b-form-group>
+
 
           <b-button type="submit" variant="primary">Submit</b-button>
         </b-form>
@@ -91,8 +111,13 @@
     data() {
       return {
         enrolment: {},
+        status: null,
+        courses: '',  // store result of axios request into empty variable
+        lecturers: '', // store result of axios request into empty variable
         show: true,
-        loggedIn: false
+        loggedIn: false,
+        status: [{ text : 'Select One', value:null}, 'assigned', 'associate', 'career_break','interested'],
+        errors:[]
       }
     },
     created() {
@@ -115,12 +140,33 @@
       .catch(function (error) {
         console.log(error);
       });
+      //get all courses
+      axios.get(`/api/courses`, {
+        headers: { Authorization: "Bearer " + token }
+      })
+      .then(function (response) {
+        app.courses = response.data.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      // get all lecturers
+      axios.get(`/api/lecturers`, {
+        headers: { Authorization: "Bearer " + token }
+      })
+      .then(function (response) {
+        app.lecturers = response.data.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     },
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
 
+        // Stores the current information for this id in the models as placeholders
         let app = this;
         let token = localStorage.getItem('token');
         axios.put(`/api/enrolments/${app.$route.params.id}`, {
