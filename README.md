@@ -13,16 +13,22 @@ Then cd into the application folder and run the following in your terminal (Git 
 - `composer install`
 - `npm install`
 - `php artisan key:generate`
-- `php artisan passport:install`
 
 Then migrate and seed the database:
 
 - `php artisan migrate --seed`
+
+Then install passport:
+- `php artisan passport:install`
+
 
 And then initialise, add, and commit to Git:
 
 - `git init`
 - `git add .`
 - `git commit -am "Initial commit"`
+-------------------------------------------------------------
 
-Set your own remote git repo and push your commits
+For User Log In:
+Test User Email:    sam@bloggs.com
+Test User Password: secret
